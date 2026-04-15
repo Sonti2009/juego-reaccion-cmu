@@ -1,0 +1,18 @@
+app.fondo = 'negro'
+ 
+puntos = 0
+
+circulo = Círculo(200, 200, 20)
+circulo.relleno = 'rojo'
+
+texto = Rótulo('puntos: 0', 200, 40, tamaño=20, relleno='blanco')
+
+def enRatónPresionado(ratónX, ratónY):
+    global puntos
+    
+    if(circulo.toca(ratónX, ratónY)):
+        puntos += 1
+        texto.valor = 'puntos:' + str(puntos)
+        
+        circulo.centroX=rangoAleatorio(50, 350)
+        circulo.centroY=rangoAleatorio(50, 350)
