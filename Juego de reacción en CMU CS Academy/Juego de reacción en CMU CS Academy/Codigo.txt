@@ -1,0 +1,153 @@
+app.fondo = 'negro'
+
+###Nombre
+nombre = Rótulo('Santiago Gallegos Lozoya', 310, 390, tamaño=15, relleno='blanco')
+
+###Variables
+puntos = 0
+vidas = 3
+estado = 'inicio'
+tiempo = 30
+record = 0
+velocidad = 1
+
+###Mensaje de Inicio
+mensajeInicio = Rótulo('Presiona espacio para iniciar', 200, 200, tamaño=20, relleno='blanco')
+
+###Elementos del juego
+#circulos
+circulos = Grupo(
+    Círculo(100, 100, 30, relleno='rojo'),
+    Círculo(300, 200, 25, relleno='carmesí')
+    )
+    
+circulos.visible=Falso
+
+#textos
+textoPuntos = Rótulo('Puntos: 0', 200, 40, tamaño=20, relleno='blanco', visible=Falso)
+textoVidas = Rótulo('Vidas: 3', 200, 70, tamaño=20, relleno='blanco', visible=Falso)
+textoTiempo = Rótulo('Tiempo: 30', 200, 100, tamaño=20, relleno='blanco', visible=Falso)
+textoRecord = Rótulo('Record: 0', 200, 130, tamaño=18, relleno='grisClaro')
+textoGameOver = Rótulo('', 200, 170, tamaño=20, relleno='rojo', visible=Falso)
+
+MarcadorDeClic = Grupo()
+
+###Función de terminar el juego
+def terminarJuego():
+    global estado, record
+    
+    estado = 'inicio'
+    
+    if(puntos>record):
+        record = puntos
+    
+    circulos.visible=Falso
+    textoPuntos.visible=Falso
+    textoVidas.visible=Falso
+    textoTiempo.visible=Falso
+    
+    mensajeInicio.visible=Verdadero
+    mensajeInicio.valor='Perdiste - presiona espacio'
+    textoGameOver.visible=Verdadero
+    textoGameOver.valor='Puntaje: ' + str(puntos)
+    
+###Inicio y reinicio
+def enTeclaPresionada(espacio):
+    global estado, puntos, vidas, tiempo, velocidad
+    if(estado == 'inicio'):
+        estado = 'jugando'
+        
+        mensajeInicio.visible = Falso
+        textoGameOver.visible = Falso
+        
+        #Aparición del Juego
+        circulos.visible=Verdadero
+        textoVidas.visible=Verdadero
+        textoPuntos.visible=Verdadero
+        textoTiempo.visible=Verdadero
+        textoRecord.visible=Verdadero
+        
+        puntos = 0
+        vidas = 3
+        tiempo = 30
+        velocidad = 1
+        
+        textoPuntos.valor='Puntos: 0'
+        textoVidas.valor='Vidas: 3'
+        textoTiempo.valor='Tiempo: 30'
+        textoRecord.valor='Record: ' + str(record)
+        
+    #####Modificación de puntos y vidas
+def enRatónPresionado(ratónX, ratónY):
+    global puntos, vidas, velocidad
+    
+    if(estado != 'jugando'):
+        return
+    
+    #marcador de click
+    MarcadorDeClic.agregar(Círculo(ratónX, ratónY, 10, opacidad=40, relleno='turquesaPalido'))
+    
+    acierto = Falso
+    
+    ###Añadir puntos
+    for c in circulos:
+        if(c.toca(ratónX, ratónY)):
+            acierto = Verdadero
+            
+            if(c.relleno=='rojo'): #bueno
+                puntos += 1
+            elif(c.relleno=='carmesí'): #malo
+                vidas -= 1
+                acierto = True
+                
+        ###Si no aciertas ninguno   
+    if not acierto:
+        vidas -= 1
+        textoVidas.valor = 'Vidas: ' + str(vidas)
+        
+        ###Movimiento de circulos
+    for c in circulos:
+        c.centroX = rangoAleatorio (50, 350)
+        c.centroY = rangoAleatorio (50, 350)
+        c.radio = rangoAleatorio (20, 30)
+        
+        ###Dificultad
+    if(puntos >= 15):
+        velocidad = 4
+    elif(puntos >= 10):
+        velocidad = 3
+    elif(puntos >= 5):
+        velocidad = 2
+        
+    ###actualizar textos
+    textoPuntos.valor='Puntos: ' + str(puntos)
+    textoVidas.valor='Vidas: ' + str(vidas)
+        
+    ###Game Over
+    if(vidas <= 0):
+        terminarJuego()
+        
+###Marcas de clicks    
+def enPaso():
+    global tiempo, record
+    
+    #efecto click
+    for marca in MarcadorDeClic:
+        marca.radio = marca.radio - 2
+        if(marca.radio <= 2):
+            MarcadorDeClic.quitar(marca) 
+    
+    if(estado != 'jugando'):
+        return
+    
+    #tiempo
+    tiempo -= 0.02
+    textoTiempo.valor = 'Tiempo: ' + str(max(0, int(tiempo)))
+    if(tiempo<=0):
+        terminarJuego()
+        
+    ###novimiento automatico (dificultad)
+    for c in circulos:
+        c.centroX += rangoAleatorio(-velocidad, velocidad)
+        c.centroY += rangoAleatorio(-velocidad, velocidad)
+        
