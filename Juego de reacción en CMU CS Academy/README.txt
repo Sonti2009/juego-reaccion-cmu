@@ -1,5 +1,20 @@
-Juego de reaccion con clicks hecho con el sistema de CMU CS Academy
+# 🎮 Reaction Game
 
-Al hacer click en el circulo, este cambia de posicion de manera aleatoria alrededor del lienzo,
-y a la vez aumenta el valor de un rotulo con los puntos,
-de manera en que se pruebe  la cantidad de clicks acertados
+Juego hecho en Python con CMU CS Academy.
+
+## 🚀 Características
+-Sistema de vidas
+-Tiempo limite
+-Dificultad progresiva
+-High score
+-Multiples objetivos
+
+## 🎯 Cómo jugar
+-Presiona espacio para iniciar
+-Haz click al circulo correcto
+-Evita perder vidas
+
+## 🧠 Lo que aprendí
+-Manejo de eventos
+-Logica de estados
+-Uso de grupos y condicinales
