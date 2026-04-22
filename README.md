@@ -1,13 +1,20 @@
-# Juego-Reaccion-CMU
-Juego de reflejos hecho en python (cmu cs academy)
+# 🎮 Reaction Game
 
-## Descripción
-Juego donde debes hacer click en un circulo para ganar puntos.
+Juego hecho en Python con CMU CS Academy.
 
-## Cómo funciona
--Haz clic sobre el círculo
--Si aciertas, ganas puntos
--El círculo cambia de posición
+## 🚀 Características
+-Sistema de vidas
+-Tiempo limite
+-Dificultad progresiva
+-High score
+-Multiples objetivos
 
-## Tecnologías
--Python (CMU CS Academy)
+## 🎯 Cómo jugar
+-Presiona espacio para iniciar
+-Haz click al circulo correcto
+-Evita perder vidas
+
+## 🧠 Lo que aprendí
+-Manejo de eventos
+-Logica de estados
+-Uso de grupos y condicinales
